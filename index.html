@@ -21,7 +21,7 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        input[type="text"], textarea {
+        input[type="text"], textarea, input[type="color"] {
             width: 100%;
             padding: 10px;
             margin: 5px 0 20px;
@@ -29,7 +29,7 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
-        input[type="submit"] {
+        input[type="submit"], #copy-button, #resize-button, #customize-button {
             background-color: #4CAF50;
             color: white;
             padding: 14px 20px;
@@ -39,21 +39,11 @@
             cursor: pointer;
             width: 100%;
         }
-        input[type="submit"]:hover {
+        input[type="submit"]:hover, #copy-button:hover, #resize-button:hover, #customize-button:hover {
             background-color: #45a049;
         }
-        #copy-button {
-            background-color: #008CBA;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-        }
-        #copy-button:hover {
-            background-color: #005f6b;
+        #banner-preview {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -70,11 +60,23 @@
             <label for="productUrl">Product URL:</label>
             <input type="text" id="productUrl" name="productUrl" required>
             <label for="price">Price:</label>
-            <input type="text" id="price" name="price" optional>
-            <input type="submit" value="Generate HTML Banner">
+            <input type="text" id="price" name="price" required>
+            <label for="bannerColor">Banner Color:</label>
+            <input type="color" id="bannerColor" name="bannerColor" value="#f0f0f0">
+            <label for="textColor">Text Color:</label>
+            <input type="color" id="textColor" name="textColor" value="#000000">
+            <label for="buttonColor">Button Color:</label>
+            <input type="color" id="buttonColor" name="buttonColor" value="#4CAF50">
+            <label for="buttonTextColor">Button Text Color:</label>
+            <input type="color" id="buttonTextColor" name="buttonTextColor" value="#ffffff">
+            <label for="buttonText">Button Text:</label>
+            <input type="text" id="buttonText" name="buttonText" value="Buy Now">
+            <input type="submit" value="Generate Banner">
         </form>
         <div id="banner-preview"></div>
-        <button id="copy-button">Copy Banner Code</button>
+        <button id="copy-button">Copy Code</button>
+        <button id="resize-button">Resize Banner</button>
+        <button id="customize-button">Customize Button</button>
     </div>
 
     <script>
@@ -87,23 +89,36 @@
             copyToClipboard(document.querySelector('#banner-preview').innerHTML);
         });
 
+        document.querySelector('#resize-button').addEventListener('click', function() {
+            resizeBanner();
+        });
+
+        document.querySelector('#customize-button').addEventListener('click', function() {
+            customizeButton();
+        });
+
         function generateBanner() {
             const title = document.querySelector('#title').value;
             const description = document.querySelector('#description').value;
             const imgUrl = document.querySelector('#imgUrl').value;
             const productUrl = document.querySelector('#productUrl').value;
             const price = document.querySelector('#price').value;
+            const bannerColor = document.querySelector('#bannerColor').value;
+            const textColor = document.querySelector('#textColor').value;
+            const buttonColor = document.querySelector('#buttonColor').value;
+            const buttonTextColor = document.querySelector('#buttonTextColor').value;
+            const buttonText = document.querySelector('#buttonText').value;
 
             const bannerPreview = document.querySelector('#banner-preview');
             bannerPreview.innerHTML = `
                 <a href="${productUrl}" style="text-decoration:none;color:inherit;" target="_blank">
-                    <div style="display:flex;align-items:center;justify-content:center;background-color:#f0f0f0;width:100%;padding:20px;border-radius:8px;">
+                    <div id="banner-container" style="display:flex;align-items:center;justify-content:center;background-color:${bannerColor};padding:20px;border-radius:8px;">
                         <img src="${imgUrl}" alt="Product Image" style="max-width:100%;height:auto;">
-                        <div style="margin-left:20px;">
+                        <div style="margin-left:20px;color:${textColor};">
                             <h3 style="margin:0;">${title}</h3>
                             <p style="margin:5px 0;">${description}</p>
                             <p style="margin:5px 0;font-weight:bold;">Price: ${price}</p>
-                            <button style="background-color:#4CAF50;color:white;padding:10px 20px;border:none;border-radius:4px;cursor:pointer;">Buy Now</button>
+                            <button style="background-color:${buttonColor};color:${buttonTextColor};padding:10px 20px;border:none;border-radius:4px;cursor:pointer;">${buttonText}</button>
                         </div>
                     </div>
                 </a>
@@ -117,7 +132,22 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            alert('Banner html code copied to clipboard!');
+            alert('Banner code copied to clipboard!');
+        }
+
+        function resizeBanner() {
+            const bannerContainer = document.querySelector('#banner-container');
+            const currentWidth = bannerContainer.offsetWidth;
+            const newWidth = currentWidth * 1.1; // Increase width by 10%
+            bannerContainer.style.width = `${newWidth}px`;
+        }
+
+        function customizeButton() {
+            const buttonText = prompt("Enter new button text:");
+            if (buttonText !== null) {
+                document.querySelector('#buttonText').value = buttonText;
+                generateBanner();
+            }
         }
     </script>
 </body>
