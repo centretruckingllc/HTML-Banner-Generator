@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -70,11 +70,11 @@
             <label for="productUrl">Product URL:</label>
             <input type="text" id="productUrl" name="productUrl" required>
             <label for="price">Price:</label>
-            <input type="text" id="price" name="price" required>
-            <input type="submit" value="Generate Banner">
+            <input type="text" id="price" name="price" optional>
+            <input type="submit" value="Generate HTML Banner">
         </form>
         <div id="banner-preview"></div>
-        <button id="copy-button">Copy Code</button>
+        <button id="copy-button">Copy Banner Code</button>
     </div>
 
     <script>
@@ -117,7 +117,7 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            alert('Banner code copied to clipboard!');
+            alert('Banner html code copied to clipboard!');
         }
     </script>
 </body>
