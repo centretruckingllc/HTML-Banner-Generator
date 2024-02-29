@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        #banner-form {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="banner-form">
+        <h2>Banner Generator</h2>
+        <form action="#">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+            <label for="description">Product Description:</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+            <label for="imgUrl">Image URL:</label>
+            <input type="text" id="imgUrl" name="imgUrl" required>
+            <label for="productUrl">Product URL:</label>
+            <input type="text" id="productUrl" name="productUrl" required>
+            <label for="price">Price:</label>
+            <input type="text" id="price" name="price" required>
+            <input type="submit" value="Generate Banner">
+        </form>
+        <div id="banner-preview"></div>
+    </div>
+
+    <script>
+        document.querySelector('#banner-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.querySelector('#title').value;
+            const description = document.querySelector('#description').value;
+            const imgUrl = document.querySelector('#imgUrl').value;
+            const productUrl = document.querySelector('#productUrl').value;
+            const price = document.querySelector('#price').value;
+
+            const bannerPreview = document.querySelector('#banner-preview');
+            bannerPreview.innerHTML = `
+                <a href="${productUrl}" style="text-decoration:none;color:inherit;" target="_blank">
+                    <div style="display:flex;align-items:center;justify-content:center;background-color:#f0f0f0;width:100%;padding:20px;border-radius:8px;">
+                        <img src="${imgUrl}" alt="Product Image" style="max-width:100%;height:auto;">
+                        <div style="margin-left:20px;">
+                            <h3 style="margin:0;">${title}</h3>
+                            <p style="margin:5px 0;">${description}</p>
+                            <p style="margin:5px 0;font-weight:bold;">Price: ${price}</p>
+                            <button style="background-color:#4CAF50;color:white;padding:10px 20px;border:none;border-radius:4px;cursor:pointer;">Buy Now</button>
+                        </div>
+                    </div>
+                </a>
+            `;
+        });
+    </script>
+</body>
+</html>
