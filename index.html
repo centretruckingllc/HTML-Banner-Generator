@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -29,7 +29,7 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
-        input[type="submit"], #copy-button, #resize-button, #customize-button {
+        input[type="submit"], #copy-button, #increase-button, #decrease-button, #customize-button {
             background-color: #4CAF50;
             color: white;
             padding: 14px 20px;
@@ -39,7 +39,7 @@
             cursor: pointer;
             width: 100%;
         }
-        input[type="submit"]:hover, #copy-button:hover, #resize-button:hover, #customize-button:hover {
+        input[type="submit"]:hover, #copy-button:hover, #increase-button:hover, #decrease-button:hover, #customize-button:hover {
             background-color: #45a049;
         }
         #banner-preview {
@@ -75,7 +75,8 @@
         </form>
         <div id="banner-preview"></div>
         <button id="copy-button">Copy Code</button>
-        <button id="resize-button">Resize Banner</button>
+        <button id="increase-button">Increase Banner Size</button>
+        <button id="decrease-button">Decrease Banner Size</button>
         <button id="customize-button">Customize Button</button>
     </div>
 
@@ -89,8 +90,12 @@
             copyToClipboard(document.querySelector('#banner-preview').innerHTML);
         });
 
-        document.querySelector('#resize-button').addEventListener('click', function() {
-            resizeBanner();
+        document.querySelector('#increase-button').addEventListener('click', function() {
+            resizeBanner('increase');
+        });
+
+        document.querySelector('#decrease-button').addEventListener('click', function() {
+            resizeBanner('decrease');
         });
 
         document.querySelector('#customize-button').addEventListener('click', function() {
@@ -135,10 +140,15 @@
             alert('Banner code copied to clipboard!');
         }
 
-        function resizeBanner() {
+        function resizeBanner(action) {
             const bannerContainer = document.querySelector('#banner-container');
             const currentWidth = bannerContainer.offsetWidth;
-            const newWidth = currentWidth * 1.1; // Increase width by 10%
+            let newWidth;
+            if (action === 'increase') {
+                newWidth = currentWidth * 1.1; // Increase width by 10%
+            } else if (action === 'decrease') {
+                newWidth = currentWidth * 0.9; // Decrease width by 10%
+            }
             bannerContainer.style.width = `${newWidth}px`;
         }
 
